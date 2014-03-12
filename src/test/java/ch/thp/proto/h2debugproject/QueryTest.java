@@ -60,9 +60,12 @@ public class QueryTest {
         con.close();
     }
 
+    /**
+     * with uuid, it does not work
+     */
     @Test
     public void testGroupQueryWithUuid() throws Exception {
-        String queryString = "select distinct name from APPLICATION_GROUP g inner join user_groups ug on g.uuid inner join APPLICATION_USER u on ug.APPLICATION_USER_uuid = u.uuid where u.username = 'a.user'";
+        String queryString = "select distinct name from APPLICATION_GROUP g inner join user_groups ug on g.uuid = ug.groups_uuid inner join APPLICATION_USER u on ug.APPLICATION_USER_uuid = u.uuid where u.username = 'a.user'";
         Connection con = null;
         con = DriverManager.getConnection("jdbc:h2:mem:" + DATABASE_NAME
                 + ";IFEXISTS=TRUE");
@@ -88,9 +91,12 @@ public class QueryTest {
 
     }
 
+    /**
+     * castable to integers, works fine 
+     */
     @Test
     public void testGroupQueryWithStringCastableToInteger() throws Exception {
-        String queryString = "select distinct name from APPLICATION_GROUP g inner join user_groups ug on g.uuid inner join APPLICATION_USER u on ug.APPLICATION_USER_uuid = u.uuid where u.username = 'b.user'";
+        String queryString = "select distinct name from APPLICATION_GROUP g inner join user_groups ug on g.uuid = ug.groups_uuid inner join APPLICATION_USER u on ug.APPLICATION_USER_uuid = u.uuid where u.username = 'b.user'";
         Connection con = null;
         con = DriverManager.getConnection("jdbc:h2:mem:" + DATABASE_NAME
                 + ";IFEXISTS=TRUE");
